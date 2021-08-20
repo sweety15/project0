@@ -1,4 +1,4 @@
-project0
+project0 : [MongoDB ,Pymongo]
 
 dataset (structure)
 Structure of 'restaurants' collection:
@@ -26,12 +26,14 @@ Tasks:
 Import the restaurants data into MongoDB.
 	i) direct import (no code, using mongoimport)	- databaseA
 	ii) using Python - PyMongo driver	        - databaseB
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+procedure:
 
 step 1: start the server using the command "C:\Program Files\MongoDB\Server\5.0\mongod"(path of mongodb) --dbpath="C:\data\db"
-step 2: start the shell "C:\Program Files\MongoDB\Server\5.0\mongod"
-step 3:import data "C:\Program Files\MongoDB\Server\mongodb-database-tools\bin\mongoimport" --db products --collection zipcodes --typejson --file (filename)
+step 2: start the shell "C:\Program Files\MongoDB\Server\5.0\mongo"
+step 3: import data file "C:\Program Files\MongoDB\Server\mongodb-database-tools\bin\mongoimport" --db products --collection zipcodes --typejson --file (filename)
 
-i)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 1. Write a MongoDB query to display all the documents in the collection restaurants.
    
@@ -125,11 +127,11 @@ Note : Do this query without using $and operator.
 
 22. Write a MongoDB query to find the restaurant Id, name, and grades for those restaurants which achieved a grade of "A" and scored 11 on an ISODate "2014-08-11T00:00:00Z" among many of survey dates..
 
-#   Q)db.zipcode.find({"grades" : {$elemMatch: {"date": ISODate("2014-08-11T00:00:00Z"), "grade":"A", "score":11}}}, {_id:0, restaurant_id:1, name:1, grades:1})
+   Q)db.zipcode.find({"grades" : {$elemMatch: {"date": ISODate("2014-08-11T00:00:00Z"), "grade":"A", "score":11}}}, {_id:0, restaurant_id:1, name:1, grades:1})
 
 23. Write a MongoDB query to find the restaurant Id, name and grades for those restaurants where the 2nd element of grades array contains a grade of "A" and score 9 on an ISODate "2014-08-11T00:00:00Z".
 
- #  Q)db.zipcode.find({$and: [{"grades.1.grade":"A"}, {"grades.1.score": 9}, {"grades.1.date": ISODate("2014-08-11T00:00:00Z")}]},{_id:0, restaurant_id:1, name:1, grades:1}).pretty()
+   Q)db.zipcode.find({$and: [{"grades.1.grade":"A"}, {"grades.1.score": 9}, {"grades.1.date": ISODate("2014-08-11T00:00:00Z")}]},{_id:0, restaurant_id:1, name:1, grades:1}).pretty()
 
 24. Write a MongoDB query to find the restaurant Id, name, address and geographical location for those restaurants where 2nd element of coord array contains a value which is more than 42 and upto 52..
 
@@ -166,18 +168,20 @@ Note : Do this query without using $and operator.
 
     Q)db.zipcode.find({name: {$regex: /^Mad/}},{_id:0, name:1, borough:1, "address.coord":1, cuisine:1})
 
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ii)pymongo
 
 from pymongo import MongoClient
-from datetime import date,time,datetime
+from datetime import datetime
 client=MongoClient()
 db=client.customers
 x=db.list_collection_names() #db.getcollection
 #print(x)
 zipcode=db.zipcode
 import pprint
+
+
 1 query to display all the documents in a collection 
 
 for x in zipcode.find():
